@@ -3,6 +3,20 @@ import streamlit as st
 import pickle
 import requests
 
+import gdown
+import os
+#import pickle
+
+# Only download if the file doesn't exist locally
+if not os.path.exists("similarity.pkl"):
+    url = "https://drive.google.com/uc?id=13EmtG7bUUrNtttQxixiWDVsf7kXbt3G3"
+    gdown.download(url, "similarity.pkl", quiet=False)
+
+# Now load as usual
+with open("similarity.pkl", "rb") as f:
+    similarity = pickle.load(f)
+
+
 
 def fetch_poster(movie_id):
     response = requests.get(
@@ -15,7 +29,7 @@ def fetch_poster(movie_id):
 # Load movie data and similarity matrix
 movies_dict = pickle.load(open('movies_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+#similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 
 def recommend(movie):
